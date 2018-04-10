@@ -24,35 +24,41 @@ class Form extends Component {
 
     convert = (event) => {
         event.preventDefault();
-        new ConvertorService().getValue(this.state.origin, this.state.destination)
-            .then(res => {
-                let rate = res.data.rates[this.state.destination];
-                let value = rate * this.state.originValue;
-                let formatValue = Intl.NumberFormat("es-CO", { style : "currency", currency : this.state.destination }).format(value)
-                this.setState({ destValue: formatValue , showResult : true });
-            }).catch(error => {
-                console.log(error.message);
-            });
+
+        if (this.state.origin != this.state.destination) {
+            new ConvertorService().getValue(this.state.origin, this.state.destination)
+                .then(res => {
+                    let rate = res.data.rates[this.state.destination];
+                    let value = rate * this.state.originValue;
+                    let formatValue = Intl.NumberFormat("es-CO", { style: "currency", currency: this.state.destination }).format(value)
+                    this.setState({ destValue: formatValue, showResult: true, showErrorMessage: false });
+                }).catch(error => {
+                    console.log(error.message);
+                });
+        }
+        else {
+            this.setState({ showErrorMessage: true, errorMessage: 'You can not convert the same format currency' });
+        }
     }
 
     cleanForm = () => {
-        this.setState({ origin: 'USD', originValue: '', destination: 'EUR', destValue: '', showResult : false });
+        this.setState({ origin: 'USD', originValue: '', destination: 'EUR', destValue: '', showResult: false });
     }
 
     onChangeInputValue = (event) => {
         this.setState({
             originValue: event.target.value,
-            formatOriginValue : Intl.NumberFormat("es-CO", { style : "currency", currency : this.state.origin }).format(event.target.value),
-            showResult : false
+            formatOriginValue: Intl.NumberFormat("es-CO", { style: "currency", currency: this.state.origin }).format(event.target.value),
+            showResult: false
         });
     }
 
     onChangeOriginValue = (event) => {
-        this.setState({ origin: event.target.value, showResult : false });
+        this.setState({ origin: event.target.value, showResult: false });
     }
 
     onChangeDestinatioValue = (event) => {
-        this.setState({ destination: event.target.value, showResult : false });
+        this.setState({ destination: event.target.value, showResult: false });
     }
 
     render() {
@@ -78,6 +84,11 @@ class Form extends Component {
                     <div className="text-center">
                         <button className="btn btn-primary btn-sm mb-2 mr-sm-2" type="submit">CALCULATE</button>
                     </div>
+                    {this.state.showErrorMessage ? (
+                        <div class="text-center">
+                            <span class="messageError">{this.state.errorMessage}</span>
+                        </div>
+                    ) : null}
                     {this.state.showResult ?
                         (
                             <div className="row">
