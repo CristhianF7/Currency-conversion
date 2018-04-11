@@ -71,7 +71,7 @@ class Form extends Component {
                                 value={this.state.origin} onChange={this.onChangeOriginValue}>
                                 {this.state.formats}
                             </select>
-                            <input type="number" className="form-control form-control-sm mb-2 mr-sm-2 col-xs-12 col-sm-4"
+                            <input type="number" className="form-control form-control-sm mb-2 mr-sm-2 col-xs-12 col-sm-3"
                                 value={this.state.originValue} onChange={this.onChangeInputValue} placeholder="Value to convert" />
 
                             <span className="mb-2 mr-sm-2">To: </span>
@@ -79,6 +79,10 @@ class Form extends Component {
                                 value={this.state.destination} onChange={this.onChangeDestinatioValue}>
                                 {this.state.formats}
                             </select>
+
+                            <input type="text" disabled className="form-control form-control-sm mb-2 mr-sm-2 col-xs-12 col-sm-3"
+                                value={this.state.destValue}/>
+
                         </div>
                     </div>
                     <div className="text-center">
