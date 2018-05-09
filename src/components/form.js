@@ -11,7 +11,7 @@ class Form extends Component {
             res.data.rates.EUR = '';
             var formats = Object.keys(res.data.rates);
             optionsFormat = formats.map((format) => {
-                return <option key={format} value={format} disabled={allowedOperations.indexOf(format) == -1 ? 'true' : null}>{format}</option>
+                return <option key={format} value={format} disabled={allowedOperations.indexOf(format) === -1 ? 'true' : null}>{format}</option>
             });
             this.setState({ formats: optionsFormat });
         });
@@ -19,14 +19,14 @@ class Form extends Component {
     }
 
     getFormatValues = () => {
-        return new ConvertorService().getFormats();
+        return ConvertorService.getFormats();
     }
 
     convert = (event) => {
         event.preventDefault();
 
-        if (this.state.origin != this.state.destination) {
-            new ConvertorService().getValue(this.state.origin, this.state.destination)
+        if (this.state.origin !== this.state.destination) {
+            ConvertorService.getValue(this.state.origin, this.state.destination)
                 .then(res => {
                     let rate = res.data.rates[this.state.destination];
                     let value = rate * this.state.originValue;
@@ -63,7 +63,7 @@ class Form extends Component {
 
     render() {
         return (
-            <div className="container">
+            <div className="container formContainer">
                 <form onSubmit={this.convert}>
                     <div className="row">
                         <div className="col form-inline text-center mx-auto">
@@ -79,10 +79,8 @@ class Form extends Component {
                                 value={this.state.destination} onChange={this.onChangeDestinatioValue}>
                                 {this.state.formats}
                             </select>
-
-                            <input type="text" disabled className="form-control form-control-sm mb-2 mr-sm-2 col-xs-12 col-sm-3"
-                                value={this.state.destValue}/>
-
+                            <input type="text" disabled className="form-control form-control-sm mb-2 mr-sm-2 col-xs-12 col-sm-2"
+                                value={this.state.destValue} />
                         </div>
                     </div>
                     <div className="text-center">

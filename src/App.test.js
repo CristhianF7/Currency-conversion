@@ -4,7 +4,7 @@ import App from './App';
 import ConvertorService from './services/convertorService';
 
 test('Convertor service ok', () => {
-  return new ConvertorService().getFormats().then(response => {
+  return ConvertorService.getFormats().then(response => {
     expect(response.data.rates).toBeDefined();
   });
 });

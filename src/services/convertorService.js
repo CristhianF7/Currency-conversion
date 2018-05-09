@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Configurations from './../environment/config';
 
-export default class ConvertorService {
+class ConvertorService {
     getFormats() {
         return axios.get(`${Configurations.apiConvertUrl}latest`);
     }
@@ -16,3 +16,5 @@ export default class ConvertorService {
             });
     }
 }
+
+export default new ConvertorService();
